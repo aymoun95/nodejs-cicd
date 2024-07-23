@@ -1,6 +1,6 @@
 FROM node:16.20.1
 WORKDIR /app
-COPY pacakge.json ./
+COPY package.json ./
 RUN npm install
 COPY . .
 EXPOSE 5000
