@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    runs: [ubuntu-latest]
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
@@ -14,3 +15,18 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-app:latest
+  # deploy:
+  #   needs: build
+  #   runs: [ubuntu-latest]
+  #   steps:
+  #     - name: Pull image on instance
+  #       run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-app:latest
+  #     - name: delete old conatianer
+  #       run: delete rm -f nodejs-app-container
+  #     - name: run docker container
+  #       run: docker run -d -p 5000:5000 -name nodejs-app-container ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-app
